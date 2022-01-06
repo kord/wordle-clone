@@ -1,3 +1,11 @@
+# Wordle Clone by kord
+
+Little project to rebuild wordle and do some messing around with dictionaries.
+
+## Links
+- [Word list](https://raw.githubusercontent.com/dwyl/english-words/master/words.txt)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
