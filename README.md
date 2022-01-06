@@ -4,7 +4,7 @@ Little project to rebuild wordle and do some messing around with dictionaries.
 
 ## Links
 - [Word list](https://raw.githubusercontent.com/dwyl/english-words/master/words.txt)
-
+- [Someone else's clone](https://palabrio.balbona.me/play/YnJvb2s)
 
 # Getting Started with Create React App
 

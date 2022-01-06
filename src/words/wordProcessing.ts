@@ -29,30 +29,41 @@ function getCleanWordlist() {
     return alphaWords;
 }
 
-const cleanWords = getCleanWordlist();
 
-function wordListByLength(n: number) {
+function wordListByLength(cleanWords: string[], n: number) {
     return cleanWords.filter(w => w.length === n).sort();
 }
 
+export function randomWordByLength(n: number) {
+    const wl = wordsByLength[n];
+    const wordCount = wl.length;
+    const wordIndex = Math.floor(Math.random() * wordCount);
+    return wl[wordIndex];
+}
 
-let simpleLists: Array<Array<string>> = new Array<Array<string>>();
-for (let k = 0; k < 10; k += 1)
-    simpleLists.push(wordListByLength(k));
+
+export let wordsByLength: Array<Array<string>> = new Array<Array<string>>();
+export let prefixDictByLength: Array<PrefixDict> = new Array<PrefixDict>();
 
 
-simpleLists.forEach((ls, size) => {
-        let byteLength = JSON.stringify(ls).length;
-        console.log(`There are ${ls.length} words of length ${size} making ${Math.ceil(byteLength / 1024)}kB`);
-        // console.log(letterCounts(ls));
-        const pl = PrefixDict.from(ls);
+export function initWordLists() {
+    console.log(`Initializing word lists...`);
 
-        console.log(`word 20: ${pl.WordList[20]}`);
+    const cleanWords = getCleanWordlist();
+
+    for (let size = 0; size < 10; size += 1) {
+        const words = wordListByLength(cleanWords, size);
+        const pl = PrefixDict.from(words);
+        wordsByLength.push(words);
+        prefixDictByLength.push(pl);
+
+        let byteLength = JSON.stringify(words).length;
+        console.log(`There are ${words.length} words of length ${size} making ${Math.ceil(byteLength / 1024)}kB`);
+
         let plByteLength = JSON.stringify(pl).length;
-        // console.log(`PrefixDict size: ${Math.ceil(plByteLength / 1024)}kB`);
-
+        console.log(`PrefixDict size: ${Math.ceil(plByteLength / 1024)}kB`);
     }
-);
 
 
+}
 

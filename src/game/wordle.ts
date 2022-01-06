@@ -1,35 +1,59 @@
 import {WordleRules} from "./wordleRules";
 
+
+enum WorldGuessErrorCode {
+    OK,
+    GUESS_WRONG_LENGTH,
+    NO_GUESSES_LEFT,
+    NOT_IN_DICT
+}
+
 type WordleGuessResult = {
-    validGuess: boolean,
+    errorCode: WorldGuessErrorCode,
     guessedWord: string,
     correctlyPlacedCorrectLetters: Array<number>,
     misplacedCorrectLetters: Array<number>,
     usedGuesses: number,
 }
 
-export class WordleGameLogic {
+export class WordleGame {
     private static invalidGuessPartial = {
-        validGuess: false,
         correctlyPlacedCorrectLetters: [],
         misplacedCorrectLetters: [],
     };
 
-    private guessResults: Array<WordleGuessResult> = new Array<WordleGuessResult>();
-    private completedGuesses: number;
+    private guessResults: Array<WordleGuessResult>;
 
     constructor(public rules: WordleRules) {
         if (rules.trueWord.length !== rules.wordLength) throw new Error(`Wrong wordlength for WordleGameLogic init.`);
-        this.completedGuesses = 0;
+        this.guessResults = new Array<WordleGuessResult>();
+    }
+
+    get completedGuesses(): number {
+        return this.guessResults.length;
     }
 
     public performGuess(guess: string): WordleGuessResult {
         const wordTooLong = guess.length !== this.rules.wordLength;
         const noGuessesLeft = this.completedGuesses === this.rules.maxGuessCount;
-        if (wordTooLong || noGuessesLeft) return {
+        const notInDict = this.rules.dictionary !== undefined && !this.rules.dictionary.hasWord(guess);
+        if (wordTooLong) return {
             guessedWord: guess,
+            errorCode: WorldGuessErrorCode.GUESS_WRONG_LENGTH,
             usedGuesses: this.completedGuesses,
-            ...WordleGameLogic.invalidGuessPartial
+            ...WordleGame.invalidGuessPartial
+        };
+        if (noGuessesLeft) return {
+            guessedWord: guess,
+            errorCode: WorldGuessErrorCode.NO_GUESSES_LEFT,
+            usedGuesses: this.completedGuesses,
+            ...WordleGame.invalidGuessPartial
+        };
+        if (notInDict) return {
+            guessedWord: guess,
+            errorCode: WorldGuessErrorCode.NOT_IN_DICT,
+            usedGuesses: this.completedGuesses,
+            ...WordleGame.invalidGuessPartial
         };
 
         let correctlyPlacedCorrectLetters = [];
@@ -66,13 +90,15 @@ export class WordleGameLogic {
             }
         }
 
-        this.completedGuesses += 1;
-        return {
-            validGuess: true,
-            usedGuesses: this.completedGuesses,
+        const guessResult: WordleGuessResult = {
+            errorCode: WorldGuessErrorCode.OK,
+            usedGuesses: this.completedGuesses + 1,
             guessedWord: guess,
             correctlyPlacedCorrectLetters: correctlyPlacedCorrectLetters,
             misplacedCorrectLetters: misplacedCorrectLetters,
         }
+        this.guessResults.push(guessResult);
+        return guessResult;
     }
 }
+

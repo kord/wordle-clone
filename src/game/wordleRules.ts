@@ -1,4 +1,6 @@
 import {ReadOnlyDictionary} from "../words/prefixDict";
+import {prefixDictByLength, randomWordByLength, wordsByLength} from "../words/wordProcessing";
+import {WordleGame} from "./wordle";
 
 export type WordleRules = {
     wordLength: number,
@@ -7,10 +9,21 @@ export type WordleRules = {
     trueWord: string,
     dictionary?: ReadOnlyDictionary,
 }
-const defaultWordleRules: WordleRules = {
+
+export const defaultWordleRules: WordleRules = {
     trueWord: '',
-    maxGuessCount: 5,
+    maxGuessCount: 6,
     wordLength: 5,
-    dictionary: undefined,
+    dictionary: prefixDictByLength[5],
     lettersOnly: true,
+}
+
+export function getRandomWordleGame() {
+    const validWordCount = wordsByLength[defaultWordleRules.wordLength];
+    Math.random()
+    const rules = {
+        ...defaultWordleRules,
+        trueWord: randomWordByLength(defaultWordleRules.wordLength)
+    }
+    return new WordleGame(rules)
 }

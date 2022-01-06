@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './words/wordProcessing.ts';
+import './init.ts';
 
 function App() {
   return (
