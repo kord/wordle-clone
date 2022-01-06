@@ -36,7 +36,7 @@ export class WordleGame {
     public performGuess(guess: string): WordleGuessResult {
         const wordTooLong = guess.length !== this.rules.wordLength;
         const noGuessesLeft = this.completedGuesses === this.rules.maxGuessCount;
-        const notInDict = this.rules.dictionary !== undefined && !this.rules.dictionary.hasWord(guess);
+        const notInDict = this.rules.dictionary && !this.rules.dictionary.hasWord(guess);
         if (wordTooLong) return {
             guessedWord: guess,
             errorCode: WorldGuessErrorCode.GUESS_WRONG_LENGTH,

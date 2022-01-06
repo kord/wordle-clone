@@ -23,7 +23,8 @@ export function getRandomWordleGame() {
     Math.random()
     const rules = {
         ...defaultWordleRules,
-        trueWord: randomWordByLength(defaultWordleRules.wordLength)
+        trueWord: randomWordByLength(defaultWordleRules.wordLength),
     }
+    console.log(`Secret word: ${rules.trueWord}`)
     return new WordleGame(rules)
 }
