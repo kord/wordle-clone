@@ -104,12 +104,8 @@ export class KeyboardPanel extends React.Component<KeyboardProps, KeyboardState>
         );
     }
 
-    onChange = (input) => {
-        console.log("Input changed", input);
-    }
 
-
-    onKeyPress = (button) => {
+    onKeyPress = (button: string) => {
         console.log("Onscreen KB Button pressed", button);
         if (button === '{submit}') {
             this.props.kbFns.submitGuessFn();
