@@ -4,23 +4,28 @@ import {justLetters} from "../words/wordProcessing";
 import {defaultEmptyGameState, GameStatus, LetterStatus, RowState, RowStatus, WordleGameState} from "./gameState";
 
 export class WordleGameController {
+    constructor() {
+        this.caretLoc = 0;
+        this.guessText = new Array<string>();
+        this.completedGuesses = new Array<WordleGuessResult>();
+        this._gameState = defaultEmptyGameState;
+    }
+
     currentGame?: WordleGame;
     caretLoc: number;
     guessText: Array<string>;
     refreshFn?: VoidFunction;
     completedGuesses: Array<WordleGuessResult>;
-    // Refresh causes an update of this, which can be read out for free at any time.
-    gameState: WordleGameState;
 
-    constructor() {
-        this.caretLoc = 0;
-        this.guessText = new Array<string>();
-        this.completedGuesses = new Array<WordleGuessResult>();
-        this.gameState = defaultEmptyGameState;
+    // Refresh causes an update of this, which can be read out for free at any time.
+    private _gameState: WordleGameState;
+
+    get gameState(): WordleGameState {
+        return this._gameState;
     }
 
     setRefreshFn(refreshFn: VoidFunction) {
-        this.refreshFn = refreshFn;
+        // this.refreshFn = refreshFn;
     }
 
     refresh() {
@@ -83,7 +88,7 @@ export class WordleGameController {
             });
         }
 
-        this.gameState = {
+        this._gameState = {
             gameStatus: gameStatus,
             guessRows: guessRows,
         }

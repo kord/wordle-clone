@@ -1,43 +1,49 @@
 import React from 'react';
 import {WordleGame} from "../game/wordle";
 import {GuessPanel} from "./guessPanel";
-import {getRandomWordleGame} from "../game/wordleRules";
 import {WordleGameController} from "../game/gameController";
 
 interface GamePanelProps {
 }
 
 interface GamePanelState {
-    activeGame?: WordleGame,
     gameController: WordleGameController,
 }
 
 class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
     constructor(props: GamePanelProps) {
         super(props);
-        this.state = {gameController: new WordleGameController()};
+        let gameController = new WordleGameController();
+        this.state = {gameController: gameController};
 
     }
 
 
     restartGame = (game?: WordleGame) => {
-        this.setState({activeGame: game || getRandomWordleGame()});
+        // this.state.gameController.setRefreshFn(this.forceUpdate)
+        this.state.gameController.startRandomGame();
+        this.forceUpdate()
     }
 
     render() {
         return (
-            <div>
+            <div onKeyDown={this.keyPressHandler}>
                 <div className={'new-game-button'}
                      onClick={() => this.restartGame()}>New Game
                 </div>
                 <div className={'help-button'}>Help</div>
 
                 <div className={'gameplay-items'}>
-                    <GuessPanel/>
+                    <GuessPanel gameState={this.state.gameController.gameState}/>
                     <div className={'keyboard-panel'}>Keyboard here</div>
                 </div>
             </div>
         );
+    }
+
+    private keyPressHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        console.log(`${e.key} pressed`);
+
     }
 }
 

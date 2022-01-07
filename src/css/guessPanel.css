@@ -1,0 +1,52 @@
+
+.guess-row {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.guess-row__completed {
+    color: red;
+}
+
+.guess-row__unused {
+    color: lawngreen;
+}
+
+.guess-row__in-progress {
+    color: yellow;
+}
+
+
+.entry-box {
+    border: black 2px solid;
+    height: 5vmin;
+    width: 5vmin;
+    padding: 4px;
+    text-transform: capitalize;
+}
+
+.entry-box__incorrect {
+    background-color: grey;
+}
+
+.entry-box__correctly-placed-correct {
+    background-color: lawngreen;
+}
+
+.entry-box__misplaced-correct {
+    background-color: yellow;
+}
+
+.entry-box__in-progress {
+    background-color: lightgray;
+}
+
+.entry-box__unused {
+    background-color: lightgray;
+}
+
+.entry-box__selected {
+
+}
+
