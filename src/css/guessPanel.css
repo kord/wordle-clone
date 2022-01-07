@@ -2,7 +2,7 @@
 .guess-row {
     display: flex;
     flex-direction: row;
-
+    font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
 }
 
 .guess-row__completed {
@@ -24,7 +24,7 @@
     width: 8vmin;
     margin: 6px;
     text-transform: capitalize;
-    font-size: 6vmin;
+    font-size: 7vmin;
     color: blue;
 }
 

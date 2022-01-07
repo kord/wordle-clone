@@ -3,6 +3,12 @@
     position: absolute;
     bottom: 10px;
     color: black;
+    width: 80%;
+}
+
+.react-simple-keyboard.simple-keyboard.hg-theme-default {
+    border: lightskyblue 3px solid;
+
 }
 
 .simple-keyboard.hg-layout-default .hg-button.hg__incorrect {
