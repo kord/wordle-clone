@@ -15,7 +15,7 @@ export class GuessPanel extends React.Component<GuessPanelProps, GuessPanelState
 
     render() {
         return (
-            <div>
+            <div className={'guess-panel'}>
                 Guesses go here
             </div>
         );

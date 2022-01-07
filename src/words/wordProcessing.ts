@@ -16,7 +16,7 @@ function letterCounts(lis: Array<string>) {
     return `${ret.length} character types types... ` + ret.join(', ');
 }
 
-function justLetters(w: string): boolean {
+export function justLetters(w: string): boolean {
     const regex = /^[abcdefghijklmnopqrstuvwxyz]*$/;
     return regex.test(w);
 }
