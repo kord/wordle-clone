@@ -22,7 +22,7 @@
     border: black 2px solid;
     height: 8vmin;
     width: 8vmin;
-    padding: 4px;
+    margin: 6px;
     text-transform: capitalize;
     font-size: 6vmin;
     color: blue;
