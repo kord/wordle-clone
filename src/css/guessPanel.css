@@ -20,10 +20,12 @@
 
 .entry-box {
     border: black 2px solid;
-    height: 5vmin;
-    width: 5vmin;
+    height: 8vmin;
+    width: 8vmin;
     padding: 4px;
     text-transform: capitalize;
+    font-size: 6vmin;
+    color: blue;
 }
 
 .entry-box__incorrect {

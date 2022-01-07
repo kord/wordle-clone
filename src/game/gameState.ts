@@ -33,6 +33,9 @@ export enum GameStatus {
 export type WordleGameState = {
     guessRows: RowState[],
     gameStatus: GameStatus,
+    correctLetters: Array<string>;
+    incorrectLetters: Array<string>;
+    misplacedLetters: Array<string>;
 }
 
 // Just to make the default easier to read.
@@ -50,5 +53,8 @@ export const defaultEmptyGameState: WordleGameState = {
     guessRows: [{
         rowState: RowStatus.COMPLETED_LOCKED_IN_ROW,
         letters: 'wordle'.split('').map(char => defaultBox(char)),
-    },]
+    },],
+    correctLetters: [],
+    incorrectLetters: [],
+    misplacedLetters: [],
 }

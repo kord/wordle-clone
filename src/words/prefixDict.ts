@@ -1,8 +1,10 @@
 export interface ReadOnlyDictionary {
     hasWord(word: string): boolean,
+
+    Size: number,
 }
 
-export class PrefixDict {
+export class PrefixDict implements ReadOnlyDictionary {
     private firstLetter: Map<string, PrefixDict>;
     private isWord = false;
 
@@ -47,6 +49,13 @@ export class PrefixDict {
             } else return false;
         }
         return currdict.isWord;
+    }
+
+    // How many words are in the dictionary.
+    public get Size(): number {
+        let tot = 0;
+        this.firstLetter.forEach(v => tot += v.Size);
+        return tot + (this.isWord ? 1 : 0);
     }
 
     /**

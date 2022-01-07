@@ -3,19 +3,31 @@ import {getRandomWordleGame} from "./wordleRules";
 import {justLetters} from "../words/wordProcessing";
 import {defaultEmptyGameState, GameStatus, LetterStatus, RowState, RowStatus, WordleGameState} from "./gameState";
 
+export type ControllerFunctions = {
+    refreshFn: VoidFunction,
+    submitFailFn: (msg: string) => void,
+}
+
 export class WordleGameController {
+    currentGame?: WordleGame;
+    caretLoc: number;
+    guessText: Array<string>;
+    controllerFunctions?: ControllerFunctions;
+    completedGuesses: Array<WordleGuessResult>;
+    correctlyPlacedCorrectLetters: Set<string>;
+    misplacedCorrectLetters: Set<string>;
+    incorrectLetters: Set<string>;
+
     constructor() {
         this.caretLoc = 0;
         this.guessText = new Array<string>();
         this.completedGuesses = new Array<WordleGuessResult>();
+        this.correctlyPlacedCorrectLetters = new Set<string>();
+        this.misplacedCorrectLetters = new Set<string>();
+        this.incorrectLetters = new Set<string>();
         this._gameState = defaultEmptyGameState;
+        console.error(`WordleGameController constructor!!!`)
     }
-
-    currentGame?: WordleGame;
-    caretLoc: number;
-    guessText: Array<string>;
-    refreshFn?: VoidFunction;
-    completedGuesses: Array<WordleGuessResult>;
 
     // Refresh causes an update of this, which can be read out for free at any time.
     private _gameState: WordleGameState;
@@ -24,8 +36,20 @@ export class WordleGameController {
         return this._gameState;
     }
 
-    setRefreshFn(refreshFn: VoidFunction) {
-        // this.refreshFn = refreshFn;
+    // moveCaret(loc: number, suppressRefresh = false) {
+    //     if (!this.currentGame || loc < 0 || loc >= this.currentGame.rules.wordLength) {
+    //         console.error(`${loc} invalid caret location now`);
+    //         return;
+    //     }
+    //     if (this.caretLoc != loc) {
+    //         this.caretLoc = loc;
+    //         if (!suppressRefresh) this.refresh();
+    //     }
+    //
+    // }
+
+    setControllerFns(controllerFunctions: ControllerFunctions) {
+        this.controllerFunctions = controllerFunctions;
     }
 
     refresh() {
@@ -91,32 +115,34 @@ export class WordleGameController {
         this._gameState = {
             gameStatus: gameStatus,
             guessRows: guessRows,
+            misplacedLetters: Array.from(this.misplacedCorrectLetters),
+            incorrectLetters: Array.from(this.incorrectLetters),
+            correctLetters: Array.from(this.correctlyPlacedCorrectLetters),
         }
 
         // Ask for the newly calculated game state to get displayed.
-        if (this.refreshFn) this.refreshFn();
+        if (this.controllerFunctions?.refreshFn()) this.controllerFunctions.refreshFn();
     }
 
-    startRandomGame() {
-        this.currentGame = getRandomWordleGame();
+
+    startPristineGame = (game: WordleGame) => {
+        this.currentGame = game;
         this.clearGuess(true);
         this.completedGuesses = new Array<WordleGuessResult>();
+
+        this.correctlyPlacedCorrectLetters = new Set<string>();
+        this.misplacedCorrectLetters = new Set<string>();
+        this.incorrectLetters = new Set<string>();
         this.refresh();
     }
 
-    // moveCaret(loc: number, suppressRefresh = false) {
-    //     if (!this.currentGame || loc < 0 || loc >= this.currentGame.rules.wordLength) {
-    //         console.error(`${loc} invalid caret location now`);
-    //         return;
-    //     }
-    //     if (this.caretLoc != loc) {
-    //         this.caretLoc = loc;
-    //         if (!suppressRefresh) this.refresh();
-    //     }
-    //
-    // }
+    startRandomGame = () => {
+        const game = getRandomWordleGame();
+        this.startPristineGame(game);
+    }
 
-    enterCharacter(char: string, suppressRefresh = false) {
+    enterCharacter = (char: string, suppressRefresh = false) => {
+        const lchar = char.toLowerCase();
         if (!this.currentGame) {
             console.error(`No current game, so you can't enter a character.`);
             return;
@@ -129,7 +155,7 @@ export class WordleGameController {
             console.error(`Input needs to be one character at a time, not "${char}"`);
             return;
         }
-        if (this.currentGame.rules.lettersOnly && !justLetters(char)) {
+        if (this.currentGame.rules.lettersOnly && !justLetters(lchar)) {
             console.error(`Input needs to be regular letters, not "${char}"`);
             return;
         }
@@ -138,12 +164,12 @@ export class WordleGameController {
             return;
         }
 
-        this.guessText[this.caretLoc] = char;
+        this.guessText[this.caretLoc] = lchar;
         this.caretLoc += 1;
         if (!suppressRefresh) this.refresh();
     }
 
-    backspace(suppressRefresh = false) {
+    backspace = (suppressRefresh = false) => {
         if (!this.currentGame) {
             console.error(`No current game, so you can't backspace.`);
             return;
@@ -162,7 +188,7 @@ export class WordleGameController {
         if (!suppressRefresh) this.refresh();
     }
 
-    submitGuess(suppressRefresh = false) {
+    submitGuess = (suppressRefresh = false) => {
         if (!this.currentGame) {
             console.error(`No current game, so you can't submit a guess.`);
             return;
@@ -174,16 +200,29 @@ export class WordleGameController {
             case WordleGuessErrorCode.OK:
                 this.clearGuess(true);
                 this.completedGuesses.push(result);
+                this.updateLetterProgress(result);
                 break;
-            default:
-                console.error(`There was an error: ${result}`);
+            case WordleGuessErrorCode.GAME_ALREADY_OVER:
+                const msg2 = 'There was an error: GAME_ALREADY_OVER';
+                console.error(msg2);
+                if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg2);
+                break;
+            case WordleGuessErrorCode.GUESS_WRONG_LENGTH:
+                const msg3 = `There was an error: GUESS_WRONG_LENGTH`;
+                console.error(msg3);
+                if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg3);
+                break;
+            case WordleGuessErrorCode.NOT_IN_DICT:
+                const msg4 = `There was an error: NOT_IN_DICT`;
+                console.error(msg4);
+                if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg4);
                 break;
         }
 
         if (!suppressRefresh) this.refresh();
     }
 
-    clearGuess(suppressRefresh = false) {
+    clearGuess = (suppressRefresh = false) => {
         if (!this.currentGame) {
             console.error(`No current game, so you can't clear a guess.`);
             return;
@@ -195,5 +234,11 @@ export class WordleGameController {
         this.caretLoc = 0;
 
         if (!suppressRefresh) this.refresh();
+    }
+
+    private updateLetterProgress(result: WordleGuessResult) {
+        result.correctlyPlacedCorrectLetters.forEach(i => this.correctlyPlacedCorrectLetters.add(result.guessedWord[i]));
+        result.incorrectLetters.forEach(i => this.incorrectLetters.add(result.guessedWord[i]));
+        result.misplacedCorrectLetters.forEach(i => this.misplacedCorrectLetters.add(result.guessedWord[i]));
     }
 }

@@ -1,0 +1,21 @@
+
+.keyboard-panel {
+    position: absolute;
+    bottom: 10px;
+    color: black;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg__incorrect {
+    background: rgb(130, 128, 123);
+    color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg__misplaced-correct {
+    background: rgb(254, 225, 77);
+    color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg__correctly-placed-correct {
+    background: rgba(124, 252, 0, 0.7);
+    color: white;
+}
