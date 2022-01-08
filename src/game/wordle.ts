@@ -32,8 +32,8 @@ export class WordleGame {
         if (rules.trueWord.length !== rules.wordLength) throw new Error(`Wrong wordlength for WordleGameLogic init.`);
         if (rules.maxGuessCount < 2) throw new Error(`maxGuessCount must be at least 2.`);
         console.log(`New game started with '${rules.trueWord}'`);
-        if (!rules.dictionary) console.log('No dictionary used.')
-        else console.log(`Dictionary size '${rules.dictionary.Size}'`);
+        if (!rules.dictionary) console.log('No dictionary used for new game.')
+        // else console.log(`Dictionary size '${rules.dictionary.Size}'`);
 
         this.guessResults = new Array<WordleGuessResult>();
         this.gameIsOver = false;

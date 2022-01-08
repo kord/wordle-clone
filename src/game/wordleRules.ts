@@ -1,5 +1,5 @@
 import {ReadOnlyDictionary} from "../words/prefixDict";
-import {prefixDictByLength, randomWordByLength, wordsByLength} from "../words/wordProcessing";
+import {commonWordsByLength, permissiveDicts, randomCommonWordByLength} from "../words/wordProcessing";
 import {WordleGame} from "./wordle";
 
 export type WordleRules = {
@@ -10,20 +10,22 @@ export type WordleRules = {
     dictionary?: ReadOnlyDictionary,
 }
 
+const defaultWordLength = 5;
+
 export const defaultWordleRules: WordleRules = {
     trueWord: '',
     maxGuessCount: 6,
-    wordLength: 5,
-    dictionary: prefixDictByLength[5],
+    wordLength: defaultWordLength,
+    dictionary: permissiveDicts[defaultWordLength],
     lettersOnly: true,
 }
 
 export function getRandomWordleGame() {
-    const validWordCount = wordsByLength[defaultWordleRules.wordLength];
+    const validWordCount = commonWordsByLength[defaultWordleRules.wordLength];
     Math.random()
     const rules = {
         ...defaultWordleRules,
-        trueWord: randomWordByLength(defaultWordleRules.wordLength),
+        trueWord: randomCommonWordByLength(defaultWordleRules.wordLength),
     }
     console.log(`Secret word: ${rules.trueWord}`)
     return new WordleGame(rules)

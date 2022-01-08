@@ -1,5 +1,6 @@
-import {wordListRaw} from './wordList';
+import {wordListLame, wordListRaw} from './wordList';
 import {PrefixDict} from "./prefixDict";
+import {commonWordsList} from "./commonWordsList";
 
 function letterCounts(lis: Array<string>) {
     const cnt = new Map<string, number>();
@@ -21,7 +22,7 @@ export function justLetters(w: string): boolean {
     return regex.test(w);
 }
 
-function getCleanWordlist() {
+function getCleanWordlist(wordListRaw: string) {
     const separateWords = wordListRaw.split('\n').map(w => w.toLowerCase());
     const alphaWords = separateWords.filter(w => justLetters(w));
     const prunedCount = separateWords.length - alphaWords.length;
@@ -34,34 +35,39 @@ function wordListByLength(cleanWords: string[], n: number) {
     return cleanWords.filter(w => w.length === n).sort();
 }
 
-export function randomWordByLength(n: number) {
-    const wl = wordsByLength[n];
+export function randomCommonWordByLength(n: number) {
+    const wl = commonWordsByLength[n];
     const wordCount = wl.length;
     const wordIndex = Math.floor(Math.random() * wordCount);
     return wl[wordIndex];
 }
 
 
-export let wordsByLength: Array<Array<string>> = new Array<Array<string>>();
-export let prefixDictByLength: Array<PrefixDict> = new Array<PrefixDict>();
+export let commonWordsByLength: Array<Array<string>> = new Array<Array<string>>();
+export let permissiveDicts: Array<PrefixDict> = new Array<PrefixDict>();
 
 
 export function initWordLists() {
     console.log(`Initializing word lists...`);
 
-    const cleanWords = getCleanWordlist();
+    const cleanWords = getCleanWordlist(wordListRaw);
+    const cleanCommonWords = getCleanWordlist(commonWordsList);
+    const cleanWordsLame = getCleanWordlist(wordListLame);
 
-    for (let size = 0; size < 10; size += 1) {
-        const words = wordListByLength(cleanWords, size);
-        const pl = PrefixDict.from(words);
-        wordsByLength.push(words);
-        prefixDictByLength.push(pl);
+    for (let size = 0; size <= 5; size += 1) {
+        // Make the permissive dicts, including everything of the right length on our word lists.
+        let permissiveDict = new PrefixDict();
+        for (let wl of [cleanWords, cleanCommonWords, cleanWordsLame]) {
+            wordListByLength(wl, size).forEach(word => permissiveDict.addWord(word));
+        }
+        permissiveDicts.push(permissiveDict);
 
-        let byteLength = JSON.stringify(words).length;
-        console.log(`There are ${words.length} words of length ${size} making ${Math.ceil(byteLength / 1024)}kB`);
+        // Process out the common words for use as puzzles
+        const words = wordListByLength(cleanCommonWords, size);
+        commonWordsByLength.push(words);
+        let byteLength = JSON.stringify(words).length
+        console.log(`There are ${wordListByLength(cleanCommonWords, size).length} common words of length ${size} making ${Math.ceil(byteLength / 1024)}kB`);
 
-        let plByteLength = JSON.stringify(pl).length;
-        console.log(`PrefixDict size: ${Math.ceil(plByteLength / 1024)}kB`);
     }
 
 

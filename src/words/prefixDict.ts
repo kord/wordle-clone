@@ -30,7 +30,7 @@ export class PrefixDict implements ReadOnlyDictionary {
      * @param words
      */
     static from(words: Array<string>) {
-        console.log(`Making PrefixDict for ${words.length} words...`);
+        // console.log(`Making PrefixDict for ${words.length} words...`);
         const ret = new PrefixDict();
         words.forEach(w => ret.addWord(w));
         return ret;
