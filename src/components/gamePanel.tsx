@@ -7,6 +7,7 @@ import '../css/gamePanel.css';
 import {KeyboardPanel} from "./keyboard";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {SuccessPanel} from "./successPanel";
 
 interface GamePanelProps {
 }
@@ -39,7 +40,6 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
     }
 
 
-
     kbFunctions = () => {
         return {
             backspaceFn: this.state.gameController.backspace,
@@ -69,6 +69,7 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
 
                 <div className={'gameplay-items'}>
                     <GuessPanel gameState={this.state.gameController.gameState}/>
+                    <SuccessPanel gameState={this.state.gameController.gameState}/>
                     <KeyboardPanel
                         kbFns={this.kbFunctions()}
                         correctLetters={this.state.gameController.gameState.correctLetters}

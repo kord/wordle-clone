@@ -29,9 +29,9 @@ export class WordleGame {
     private guessResults: Array<WordleGuessResult>;
 
     constructor(public rules: WordleRules) {
-        if (rules.trueWord.length !== rules.wordLength) throw new Error(`Wrong wordlength for WordleGameLogic init.`);
+        if (rules.goalWord.length !== rules.wordLength) throw new Error(`Wrong wordlength for WordleGameLogic init.`);
         if (rules.maxGuessCount < 2) throw new Error(`maxGuessCount must be at least 2.`);
-        console.log(`New game started with '${rules.trueWord}'`);
+        console.log(`New game started with '${rules.goalWord}'`);
         if (!rules.dictionary) console.log('No dictionary used for new game.')
         // else console.log(`Dictionary size '${rules.dictionary.Size}'`);
 
@@ -69,10 +69,10 @@ export class WordleGame {
 
         let correctlyPlacedCorrectLetters = [];
         for (let i = 0; i < this.rules.wordLength; i += 1) {
-            if (guess[i] === this.rules.trueWord[i])
+            if (guess[i] === this.rules.goalWord[i])
                 correctlyPlacedCorrectLetters.push(i);
         }
-        let trueExcludingCorrect = this.rules.trueWord.split('');
+        let trueExcludingCorrect = this.rules.goalWord.split('');
         let guessExcludingCorrect = guess.split('');
         correctlyPlacedCorrectLetters.forEach(loc => {
             trueExcludingCorrect[loc] = '';

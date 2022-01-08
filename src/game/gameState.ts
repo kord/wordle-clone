@@ -36,6 +36,7 @@ export type WordleGameState = {
     correctLetters: Array<string>;
     incorrectLetters: Array<string>;
     misplacedLetters: Array<string>;
+    goalWord: string,
 }
 
 // Just to make the default easier to read.
@@ -57,4 +58,5 @@ export const defaultEmptyGameState: WordleGameState = {
     correctLetters: [],
     incorrectLetters: [],
     misplacedLetters: [],
+    goalWord: 'dunno',
 }

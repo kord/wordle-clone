@@ -6,14 +6,14 @@ export type WordleRules = {
     wordLength: number,
     lettersOnly: boolean,
     maxGuessCount: number,
-    trueWord: string,
+    goalWord: string,
     dictionary?: ReadOnlyDictionary,
 }
 
 const defaultWordLength = 5;
 
-export const defaultWordleRules: WordleRules = {
-    trueWord: '',
+const defaultWordleRules: WordleRules = {
+    goalWord: '',
     maxGuessCount: 6,
     wordLength: defaultWordLength,
     dictionary: permissiveDicts[defaultWordLength],
@@ -25,8 +25,8 @@ export function getRandomWordleGame() {
     Math.random()
     const rules = {
         ...defaultWordleRules,
-        trueWord: randomCommonWordByLength(defaultWordleRules.wordLength),
+        goalWord: randomCommonWordByLength(defaultWordleRules.wordLength),
     }
-    console.log(`Secret word: ${rules.trueWord}`)
+    console.log(`Secret word: ${rules.goalWord}`)
     return new WordleGame(rules)
 }

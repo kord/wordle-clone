@@ -1,0 +1,11 @@
+.success-panel {
+    font-size: large;
+}
+
+.success-panel__success {
+    color: lawngreen;
+}
+
+.success-panel__failure {
+    color: red;
+}

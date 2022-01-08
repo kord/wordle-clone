@@ -102,7 +102,7 @@ export class WordleGameController {
         while (guessRows.length < this.currentGame?.rules.maxGuessCount) {
             guessRows.push({
                 rowState: RowStatus.FUTURE_UNUSED_ROW,
-                letters: this.currentGame.rules.trueWord.split('').map(letter => {
+                letters: this.currentGame.rules.goalWord.split('').map(letter => {
                     return {
                         rowStatus: RowStatus.FUTURE_UNUSED_ROW,
                         letterStatus: LetterStatus.FUTURE_UNUSED_LETTER,
@@ -119,6 +119,7 @@ export class WordleGameController {
             misplacedLetters: Array.from(this.misplacedCorrectLetters),
             incorrectLetters: Array.from(this.incorrectLetters),
             correctLetters: Array.from(this.correctlyPlacedCorrectLetters),
+            goalWord: this.currentGame.rules.goalWord,
         }
 
         // Ask for the newly calculated game state to get displayed.
