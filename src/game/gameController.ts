@@ -2,6 +2,7 @@ import {WordleGame, WordleGuessErrorCode, WordleGuessResult} from "./wordle";
 import {getRandomWordleGame} from "./wordleRules";
 import {justLetters} from "../words/wordProcessing";
 import {defaultEmptyGameState, GameStatus, LetterStatus, RowState, RowStatus, WordleGameState} from "./gameState";
+import {toast} from "react-toastify";
 
 export type ControllerFunctions = {
     refreshFn: VoidFunction,
@@ -203,19 +204,24 @@ export class WordleGameController {
                 this.updateLetterProgress(result);
                 break;
             case WordleGuessErrorCode.GAME_ALREADY_OVER:
-                const msg2 = 'There was an error: GAME_ALREADY_OVER';
-                console.error(msg2);
-                if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg2);
+                if (this.gameState.gameStatus === GameStatus.GAME_FAILURE)
+                    toast.error(`Sorry. The game's over, and you lost.`);
+                if (this.gameState.gameStatus === GameStatus.GAME_SUCCESS)
+                    toast.info('Have mercy, you already won!');
+                console.info('WordleGuessErrorCode.GAME_ALREADY_OVER');
+                // if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg2);
                 break;
             case WordleGuessErrorCode.GUESS_WRONG_LENGTH:
-                const msg3 = `There was an error: GUESS_WRONG_LENGTH`;
-                console.error(msg3);
-                if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg3);
+                const msg3 = `You need to guess a whole word.`;
+                toast.error(msg3);
+                console.info(msg3);
+                // if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg3);
                 break;
             case WordleGuessErrorCode.NOT_IN_DICT:
-                const msg4 = `There was an error: NOT_IN_DICT`;
+                const msg4 = `Sorry, "${result.guessedWord}" isn't in my dictionary.`;
                 console.error(msg4);
-                if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg4);
+                toast.error(msg4);
+                // if (this.controllerFunctions?.submitFailFn) this.controllerFunctions.submitFailFn(msg4);
                 break;
         }
 

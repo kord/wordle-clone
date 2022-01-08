@@ -5,6 +5,8 @@ import {ControllerFunctions, WordleGameController} from "../game/gameController"
 import 'react-simple-keyboard/build/css/index.css';
 import '../css/gamePanel.css';
 import {KeyboardPanel} from "./keyboard";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface GamePanelProps {
 }
@@ -28,13 +30,14 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
                 this.forceUpdate();
             },
             submitFailFn: msg => {
-                alert(msg)
+                toast.error(msg);
             },
         }
         this.state.gameController.setControllerFns(fns)
         this.state.gameController.startRandomGame();
         this.forceUpdate()
     }
+
 
 
     kbFunctions = () => {
@@ -45,7 +48,6 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
         }
     }
 
-
     render() {
         return (
             <div>
@@ -53,6 +55,17 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
                      onClick={() => this.restartGame()}>New Game
                 </div>
                 <div className={'help-button'}>Help</div>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={3500}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable={false}
+                    pauseOnHover
+                />
 
                 <div className={'gameplay-items'}>
                     <GuessPanel gameState={this.state.gameController.gameState}/>
