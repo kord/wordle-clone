@@ -1,7 +1,8 @@
 .success-panel {
     /*font-size: large;*/
     /*background-color: ;*/
-    width: 50vw;
+    width: max(min(75vh, 90%), 50vw);
+    /*width: 50vw;*/
     height: 10vh;
     border: black 1vw solid;
     color: black;
