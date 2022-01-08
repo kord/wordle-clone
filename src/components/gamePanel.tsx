@@ -68,6 +68,7 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
                 />
 
                 <div className={'gameplay-items'}>
+                    <div className={'spacer-panel'}></div>
                     <GuessPanel gameState={this.state.gameController.gameState}/>
                     <SuccessPanel gameState={this.state.gameController.gameState}/>
                     <KeyboardPanel

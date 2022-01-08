@@ -1,11 +1,22 @@
 .success-panel {
-    font-size: large;
+    /*font-size: large;*/
+    /*background-color: ;*/
+    width: 50vw;
+    height: 10vh;
+    border: black 1vw solid;
+    color: black;
+    border-radius: 20vw;
+    font-size: 7vh;
 }
 
 .success-panel__success {
-    color: lawngreen;
+    background-color: palegreen;
+}
+
+.success-panel__hidden {
+    display: none;
 }
 
 .success-panel__failure {
-    color: red;
+    background-color: lightcoral;
 }
