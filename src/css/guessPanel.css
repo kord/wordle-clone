@@ -20,11 +20,11 @@
 
 .entry-box {
     border: black 2px solid;
-    height: 8vmin;
-    width: 8vmin;
+    height: 10vmin;
+    width: 10vmin;
     margin: 6px;
     text-transform: capitalize;
-    font-size: 7vmin;
+    font-size: 8.5vmin;
     color: blue;
 }
 

@@ -3,6 +3,8 @@ import {initWordLists} from "./words/wordProcessing";
 
 // Initialization stuff.
 initWordLists();
+// Disable right click.
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 
 // // Testing stuff

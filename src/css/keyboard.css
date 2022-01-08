@@ -1,9 +1,9 @@
 
 .keyboard-panel {
     position: absolute;
-    bottom: 10px;
+    bottom: 0px;
     color: black;
-    width: 80%;
+    width: max(min(75vh, 100%), 50vw);
 }
 
 .react-simple-keyboard.simple-keyboard.hg-theme-default {
