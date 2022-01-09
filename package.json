@@ -1,6 +1,6 @@
 {
   "name": "wordle-clone",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "homepage": "https://wordle.therestinmotion.com/",
   "private": true,
   "dependencies": {
