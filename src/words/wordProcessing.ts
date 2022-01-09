@@ -62,7 +62,7 @@ export function initWordLists() {
     const cleanCommonWords = getCleanWordlist(commonWordsList);
     const cleanWordsLame = getCleanWordlist(wordListLame);
 
-    for (let size = 0; size <= 6; size += 1) {
+    for (let size = 0; size <= 7; size += 1) {
         // Make the permissive dicts, including everything of the right length on our word lists.
         let permissiveDict = new PrefixDict();
         for (let wl of [cleanWords, cleanCommonWords, cleanWordsLame]) {

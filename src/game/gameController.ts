@@ -138,8 +138,8 @@ export class WordleGameController {
         this.refresh();
     }
 
-    startRandomGame = () => {
-        const game = getRandomWordleGame();
+    startRandomGame = (len: number) => {
+        const game = getRandomWordleGame(len);
         this.startPristineGame(game);
     }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import {WordleGame} from "../game/wordle";
 import {GuessPanel} from "./guessPanel";
 import {ControllerFunctions, WordleGameController} from "../game/gameController";
 import 'react-simple-keyboard/build/css/index.css';
@@ -26,7 +25,7 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
     }
 
 
-    restartGame = (game?: WordleGame) => {
+    restartGame = (len = 5) => {
         const fns: ControllerFunctions = {
             refreshFn: () => {
                 this.forceUpdate();
@@ -36,7 +35,7 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
             },
         }
         this.state.gameController.setControllerFns(fns)
-        this.state.gameController.startRandomGame();
+        this.state.gameController.startRandomGame(len);
         toast.info('Good Luck!');
         this.forceUpdate()
     }
@@ -53,8 +52,24 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
     render() {
         return (
             <div>
-                <div className={'new-game-button'}
-                     onClick={() => this.restartGame()}>New Game
+
+                <div className={'new-game-button'}>
+                    <p className={'new-game-item'}
+                       onClick={() => this.restartGame(4)}>
+                        New Game 4
+                    </p>
+                    <p className={'new-game-item'}
+                       onClick={() => this.restartGame(5)}>
+                        New Game 5
+                    </p>
+                    <p className={'new-game-item'}
+                       onClick={() => this.restartGame(6)}>
+                        New Game 6
+                    </p>
+                    <p className={'new-game-item'}
+                       onClick={() => this.restartGame(7)}>
+                        New Game 7
+                    </p>
                 </div>
                 <HelpButton/>
                 <div className={'toaster'}>

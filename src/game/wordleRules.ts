@@ -20,11 +20,13 @@ const defaultWordleRules: WordleRules = {
     lettersOnly: true,
 }
 
-export function getRandomWordleGame() {
-    Math.random()
+export function getRandomWordleGame(wordLength: number) {
     const rules = {
         ...defaultWordleRules,
-        goalWord: randomCommonWordByLength(defaultWordleRules.wordLength),
+        wordLength: wordLength,
+        dictionary: permissiveDicts[wordLength],
+        maxGuessCount: Math.min(wordLength + 1, 7),
+        goalWord: randomCommonWordByLength(wordLength),
     }
     console.log(`Secret word: ${rules.goalWord}`)
     return new WordleGame(rules)
