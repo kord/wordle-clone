@@ -13,6 +13,7 @@ class HelpButton extends Component {
 <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
 <p>Letters show up <span class="help-panel__correct ">green</span> if they're in the right spot...</p>
 <p>and <span class="help-panel__misplaced-correct">yellow</span> if they're in the word but misplaced in your guess.</p>
+<p>Credit to <a href="https://twitter.com/powerlanguish">@powerlanguish</a> for <a href=""https://www.powerlanguage.co.uk/wordle/">Wordle</a></p>
 `,
             icon: 'info',
             confirmButtonText: 'OK'

@@ -1,8 +1,8 @@
 
 .help-panel__correct {
-    background-color: lawngreen;
+    background-color: var(--correct-guess-color);
 }
 
 .help-panel__misplaced-correct {
-    background-color: yellow;
+    background-color: var(--misplaced-guess-color);
 }

@@ -13,7 +13,7 @@
     -ms-user-select: none;
 }
 
-.App {
+:root {
     --correct-guess-color: lawngreen;
     --misplaced-guess-color: yellow;
 }

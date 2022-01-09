@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {GuessPanel} from "./guessPanel";
 import {ControllerFunctions, WordleGameController} from "../game/gameController";
 import 'react-simple-keyboard/build/css/index.css';
@@ -14,18 +14,22 @@ interface GamePanelProps {
 
 interface GamePanelState {
     gameController: WordleGameController,
+    wordLengthChoice: number,
 }
 
 class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
     constructor(props: GamePanelProps) {
         super(props);
         let gameController = new WordleGameController();
-        this.state = {gameController: gameController};
+        this.state = {
+            gameController: gameController,
+            wordLengthChoice: 5,
+        };
 
     }
 
 
-    restartGame = (len = 5) => {
+    restartGame = () => {
         const fns: ControllerFunctions = {
             refreshFn: () => {
                 this.forceUpdate();
@@ -35,8 +39,11 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
             },
         }
         this.state.gameController.setControllerFns(fns)
-        this.state.gameController.startRandomGame(len);
-        toast.info('Good Luck!');
+        this.state.gameController.startRandomGame(this.state.wordLengthChoice);
+        toast.info('Good Luck!', {
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
         this.forceUpdate()
     }
 
@@ -49,28 +56,49 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
         }
     }
 
+    onChangeWordLengthChoice = (e: ChangeEvent<HTMLSelectElement>) => {
+        const wordLengthChoice = Number.parseInt(e.target.value);
+        this.setState({wordLengthChoice: wordLengthChoice});
+    }
+
     render() {
         return (
             <div>
 
-                <div className={'new-game-button'}>
-                    <p className={'new-game-item'}
-                       onClick={() => this.restartGame(4)}>
-                        New Game 4
-                    </p>
-                    <p className={'new-game-item'}
-                       onClick={() => this.restartGame(5)}>
-                        New Game 5
-                    </p>
-                    <p className={'new-game-item'}
-                       onClick={() => this.restartGame(6)}>
-                        New Game 6
-                    </p>
-                    <p className={'new-game-item'}
-                       onClick={() => this.restartGame(7)}>
-                        New Game 7
-                    </p>
+                {/*<div className={'new-game-button'}>*/}
+                <div className={'new-game-button'}
+                     onClick={() => this.restartGame()}>
+                    New Game
                 </div>
+
+                <div className={'word-length'}>
+                    Word Length&nbsp;
+                    <select className={"word-length__select"} id={"wordLengthChoice"}
+                            value={this.state.wordLengthChoice} onChange={this.onChangeWordLengthChoice}>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+
+                {/*<p className={'new-game-item'}*/}
+                {/*   onClick={() => this.restartGame(4)}>*/}
+                {/*    New Game 4*/}
+                {/*</p>*/}
+                {/*<p className={'new-game-item'}*/}
+                {/*   onClick={() => this.restartGame(5)}>*/}
+                {/*    New Game 5*/}
+                {/*</p>*/}
+                {/*<p className={'new-game-item'}*/}
+                {/*   onClick={() => this.restartGame(6)}>*/}
+                {/*    New Game 6*/}
+                {/*</p>*/}
+                {/*<p className={'new-game-item'}*/}
+                {/*   onClick={() => this.restartGame(7)}>*/}
+                {/*    New Game 7*/}
+                {/*</p>*/}
+                {/*</div>*/}
                 <HelpButton/>
                 <div className={'toaster'}>
                     <ToastContainer

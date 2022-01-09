@@ -4,19 +4,30 @@
 }
 
 .new-game-button {
-    color: greenyellow;
+    color: var(--correct-guess-color);
     cursor: pointer;
     position: absolute;
     margin-left: 20px;
-    /*margin-top: 20px;*/
+    margin-top: 20px;
 }
 
-.new-game-item {
-    height: 10px;
+.word-length {
+    position: absolute;
+    margin-left: 20px;
+    margin-top: 60px;
 }
+
+.word-length__select {
+
+    font-size: calc(10px + 2vmin);
+}
+
+/*.new-game-item {*/
+/*    height: 10px;*/
+/*}*/
 
 .help-button {
-    color: yellow;
+    color: var(--misplaced-guess-color);
     position: absolute;
     top: 0;
     right: 0;
