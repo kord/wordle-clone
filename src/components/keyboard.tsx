@@ -50,22 +50,23 @@ export class KeyboardPanel extends React.Component<KeyboardProps, KeyboardState>
 
     buttonTheme = () => {
         const ret = [];
+        const logToConsole = false;
         if (this.props.misplacedLetters.length > 0) {
-            console.log(this.props.misplacedLetters, 'this.props.misplacedLetters')
+            if (logToConsole) console.log(this.props.misplacedLetters, 'this.props.misplacedLetters')
             ret.push({
                 class: "hg__misplaced-correct",
                 buttons: this.props.misplacedLetters.join(' ').toUpperCase(),
             });
         }
         if (this.props.correctLetters.length > 0) {
-            console.log(this.props.correctLetters, 'this.props.correctLetters')
+            if (logToConsole) console.log(this.props.correctLetters, 'this.props.correctLetters')
             ret.push({
                 class: "hg__correctly-placed-correct",
                 buttons: this.props.correctLetters.join(' ').toUpperCase(),
             });
         }
         if (this.props.incorrectLetters.length > 0) {
-            console.log(this.props.incorrectLetters, 'this.props.incorrectLetters')
+            if (logToConsole) console.log(this.props.incorrectLetters, 'this.props.incorrectLetters')
             ret.push({
                 class: "hg__incorrect",
                 buttons: this.props.incorrectLetters.join(' ').toUpperCase(),
@@ -106,7 +107,7 @@ export class KeyboardPanel extends React.Component<KeyboardProps, KeyboardState>
 
 
     onKeyPress = (button: string) => {
-        console.log("Onscreen KB Button pressed", button);
+        // console.log("Onscreen KB Button pressed", button);
         if (button === '{submit}') {
             this.props.kbFns.submitGuessFn();
         } else if (button === '{backspace}') {
@@ -117,7 +118,7 @@ export class KeyboardPanel extends React.Component<KeyboardProps, KeyboardState>
     }
 
     keyPressHandler = (e: KeyboardEvent) => {
-        console.log(`"${e.key}" pressed`);
+        // console.log(`"${e.key}" pressed`);
 
         if (e.key.length === 1) {
             this.props.kbFns.enterCharacterFn(e.key);

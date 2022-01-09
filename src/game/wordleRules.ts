@@ -25,7 +25,7 @@ export function getRandomWordleGame(wordLength: number) {
         ...defaultWordleRules,
         wordLength: wordLength,
         dictionary: permissiveDicts[wordLength],
-        maxGuessCount: Math.min(wordLength + 1, 7),
+        maxGuessCount: Math.min(wordLength + 1, 6),
         goalWord: randomCommonWordByLength(wordLength),
     }
     console.log(`Secret word: ${rules.goalWord}`)
