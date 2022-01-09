@@ -19,12 +19,13 @@
 
 
 .entry-box {
+    --size: min(13vmin, 8vh);
     border: black 2px solid;
-    height: 10vmin;
-    width: 10vmin;
+    height: var(--size);
+    width: var(--size);
     margin: 6px;
     text-transform: capitalize;
-    font-size: 8.5vmin;
+    font-size: calc(var(--size) * 0.9);
     color: blue;
 }
 
