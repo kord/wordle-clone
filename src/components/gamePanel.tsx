@@ -37,6 +37,7 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
         }
         this.state.gameController.setControllerFns(fns)
         this.state.gameController.startRandomGame();
+        toast.info('Good Luck!');
         this.forceUpdate()
     }
 
