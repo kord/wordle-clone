@@ -13,6 +13,11 @@
     -ms-user-select: none;
 }
 
+.App {
+    --correct-guess-color: lawngreen;
+    --misplaced-guess-color: yellow;
+}
+
 .App-header {
     /*  display: flex;*/
     /*  flex-direction: column;*/

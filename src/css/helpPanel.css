@@ -1,0 +1,8 @@
+
+.help-panel__correct {
+    background-color: lawngreen;
+}
+
+.help-panel__misplaced-correct {
+    background-color: yellow;
+}

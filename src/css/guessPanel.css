@@ -1,4 +1,3 @@
-
 .guess-row {
     display: flex;
     flex-direction: row;
@@ -10,11 +9,11 @@
 }
 
 .guess-row__unused {
-    color: lawngreen;
+    color: var(--correct-guess-color);
 }
 
 .guess-row__in-progress {
-    color: yellow;
+    color: var(--misplaced-guess-color);
 }
 
 
@@ -34,11 +33,11 @@
 }
 
 .entry-box__correctly-placed-correct {
-    background-color: lawngreen;
+    background-color: var(--correct-guess-color);
 }
 
 .entry-box__misplaced-correct {
-    background-color: yellow;
+    background-color: var(--misplaced-guess-color);
 }
 
 .entry-box__in-progress {

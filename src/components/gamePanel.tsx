@@ -56,17 +56,19 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
                      onClick={() => this.restartGame()}>New Game
                 </div>
                 <HelpButton/>
-                <ToastContainer
-                    position="top-center"
-                    autoClose={3500}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable={false}
-                    pauseOnHover
-                />
+                <div className={'toaster'}>
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={3500}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable={false}
+                        pauseOnHover
+                    />
+                </div>
 
                 <div className={'gameplay-items'}>
                     <div className={'spacer-panel'}></div>

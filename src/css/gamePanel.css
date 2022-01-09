@@ -31,6 +31,9 @@
     height: 12vh;
 }
 
+.toaster {
+    font-size: calc(10px + 1vmin);
+}
 
 .guess-panel {
     /*position: absolute;*/
