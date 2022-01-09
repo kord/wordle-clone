@@ -1,6 +1,7 @@
 import {wordListLame, wordListRaw} from './wordList';
 import {PrefixDict} from "./prefixDict";
 import {commonWordsList} from "./commonWordsList";
+import {excludedWordList} from "./excludedWords";
 
 function letterCounts(lis: Array<string>) {
     const cnt = new Map<string, number>();
@@ -24,9 +25,16 @@ export function justLetters(w: string): boolean {
 
 function getCleanWordlist(wordListRaw: string) {
     const separateWords = wordListRaw.split('\n').map(w => w.toLowerCase());
-    const alphaWords = separateWords.filter(w => justLetters(w));
-    const prunedCount = separateWords.length - alphaWords.length;
-    console.log(`${prunedCount} of ${separateWords.length} words pruned for non-alpha characters...`);
+
+    const blacklist = PrefixDict.from(excludedWordList);
+    const postBlacklistWords = separateWords.filter(w => !blacklist.hasWord(w));
+    const blacklistPrunedCount = separateWords.length - postBlacklistWords.length;
+    console.log(`${blacklistPrunedCount} of ${separateWords.length} words pruned for blacklist...`);
+
+    const alphaWords = postBlacklistWords.filter(w => justLetters(w));
+    const prunedCount = postBlacklistWords.length - alphaWords.length;
+    console.log(`${prunedCount} of ${postBlacklistWords.length} words pruned for non-alpha characters...`);
+
     return alphaWords;
 }
 
@@ -70,6 +78,12 @@ export function initWordLists() {
 
     }
 
+    //    cleanCommonWords
+    const bigdic = PrefixDict.from(wordListByLength(cleanWords, 5));
+    for (let w of wordListByLength(cleanCommonWords, 5)) {
+        if (!bigdic.hasWord(w))
+            console.log(w)
+    }
 
 }
 
