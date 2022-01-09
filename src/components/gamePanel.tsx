@@ -8,6 +8,7 @@ import {KeyboardPanel} from "./keyboard";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {SuccessPanel} from "./successPanel";
+import HelpButton from "./helpButton";
 
 interface GamePanelProps {
 }
@@ -54,7 +55,7 @@ class GamePanel extends React.Component<GamePanelProps, GamePanelState> {
                 <div className={'new-game-button'}
                      onClick={() => this.restartGame()}>New Game
                 </div>
-                <div className={'help-button'}>Help</div>
+                <HelpButton/>
                 <ToastContainer
                     position="top-center"
                     autoClose={3500}

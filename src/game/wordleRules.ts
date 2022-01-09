@@ -1,5 +1,5 @@
 import {ReadOnlyDictionary} from "../words/prefixDict";
-import {commonWordsByLength, permissiveDicts, randomCommonWordByLength} from "../words/wordProcessing";
+import {permissiveDicts, randomCommonWordByLength} from "../words/wordProcessing";
 import {WordleGame} from "./wordle";
 
 export type WordleRules = {
@@ -21,7 +21,6 @@ const defaultWordleRules: WordleRules = {
 }
 
 export function getRandomWordleGame() {
-    const validWordCount = commonWordsByLength[defaultWordleRules.wordLength];
     Math.random()
     const rules = {
         ...defaultWordleRules,
