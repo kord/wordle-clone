@@ -63,32 +63,67 @@ function matchstring(guess: string, target: string) {
 //    Toughest bucket:     oo  ox: 6
 
 
-export function findBestFirstWord(len: number, useBig = false) {
+function evaluateWord(lexicon: string[], guess: string) {
+    const buckets = new Map<string, number>();
+    for (let target of lexicon) {
+        const result = matchstring(guess, target);
+
+        const val = buckets.get(result);
+        if (val) buckets.set(result, val + 1)
+        else buckets.set(result, 1);
+    }
+    return buckets;
+}
+
+function BucketQuality(buckets: Map<string, number>) {
+    let worstbucket = 0;
+    let wordcount = 0;
+    buckets.forEach((v, k) => {
+        if (v > worstbucket) worstbucket = v;
+        wordcount += v;
+    });
+
+    const worstBucketSize = wordcount / worstbucket
+    return worstBucketSize;
+}
+
+export function findBestFirstWords(len: number, useBig = false) {
     const wordlist = useBig ?
         permissiveDicts[len].WordList :
         commonWordsByLength[len];
 
-    let bestBucketQuality = Number.MAX_VALUE;
+    let bestWorstBucket = Number.MAX_VALUE;
     let bestBuckets: Map<string, number>;
-    let bestWord = 'SHOUNT NOT HAPPEN';
+    let bestWord = 'SHOULD NOT HAPPEN';
+
+    // const organizedBuckets = wordlist
+    //     .map(w => evaluateWord(wordlist, w))
+    //     .sort((a, b) => BucketQuality(a) - BucketQuality(a));
+    // for (let i = 0; i <= reportCount && i < organizedBuckets.length; i++) {
+    //     const bucket = organizedBuckets[i];
+    //     const quality = BucketQuality(bucket);
+    //     console.log(`Word #${i+1} size reduction ${(100*(1-quality)).toFixed(1)}%`)
+    // }
 
     for (let guess of wordlist) {
-        const buckets = new Map<string, number>();
-        for (let target of wordlist) {
-            const result = matchstring(guess, target);
+        // const buckets = new Map<string, number>();
+        // for (let target of wordlist) {
+        //     const result = matchstring(guess, target);
+        //
+        //     const val = buckets.get(result);
+        //     if (val) buckets.set(result, val + 1)
+        //     else buckets.set(result, 1);
+        // }
+        //
+        // let worstbucket = 0;
+        // buckets.forEach(v => {
+        //     if (v > worstbucket) worstbucket = v;
+        // });
+        const buckets = evaluateWord(wordlist, guess);
+        const worstbucket = -BucketQuality(buckets);
 
-            const val = buckets.get(result);
-            if (val) buckets.set(result, val + 1)
-            else buckets.set(result, 1);
-        }
-
-        let worstbucket = 0;
-        buckets.forEach(v => {
-            if (v > worstbucket) worstbucket = v;
-        });
-
-        if (worstbucket < bestBucketQuality) {
-            bestBucketQuality = worstbucket;
+        if (worstbucket < bestWorstBucket) {
+            bestWorstBucket = worstbucket;
             bestBuckets = buckets;
             bestWord = guess;
         }
@@ -96,11 +131,11 @@ export function findBestFirstWord(len: number, useBig = false) {
     }
 
     console.log(`Best guess for length ${len} is ${bestWord}`);
-    const proportion = Math.ceil(1000 * bestBucketQuality / wordlist.length) / 100;
+    const proportion = Math.ceil(1000 * (-bestWorstBucket) / wordlist.length) / 100;
     console.log(`Worst case you need to distinguish between ${proportion}% of the lexicon.`)
 
     bestBuckets!.forEach((v, k) => {
-        if (v == bestBucketQuality)
+        if (v == bestWorstBucket)
             console.log(`Toughest bucket: ${k}: ${v}`)
     });
     // bestBuckets!.forEach((v,k) => console.log(`${k}: ${v}`));
