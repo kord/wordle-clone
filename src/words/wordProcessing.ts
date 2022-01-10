@@ -1,4 +1,4 @@
-import {wordListLame, wordListRaw} from './wordList';
+import {scrabbleWordListRaw, wordListLame} from './wordList';
 import {PrefixDict} from "./prefixDict";
 import {commonWordsList} from "./commonWordsList";
 import {excludedWordList} from "./excludedWords";
@@ -58,14 +58,14 @@ export let permissiveDicts: Array<PrefixDict> = new Array<PrefixDict>();
 export function initWordLists() {
     console.log(`Initializing word lists...`);
 
-    const cleanWords = getCleanWordlist(wordListRaw);
+    const cleanScrabbleWords = getCleanWordlist(scrabbleWordListRaw);
     const cleanCommonWords = getCleanWordlist(commonWordsList);
     const cleanWordsLame = getCleanWordlist(wordListLame);
 
     for (let size = 0; size <= 10; size += 1) {
         // Make the permissive dicts, including everything of the right length on our word lists.
         let permissiveDict = new PrefixDict();
-        for (let wl of [cleanWords, cleanCommonWords, cleanWordsLame]) {
+        for (let wl of [cleanScrabbleWords, cleanCommonWords, cleanWordsLame]) {
             wordListByLength(wl, size).forEach(word => permissiveDict.addWord(word));
         }
         permissiveDicts.push(permissiveDict);
@@ -78,12 +78,15 @@ export function initWordLists() {
 
     }
 
-    //    Count 5 letter words
-    const bigdic = PrefixDict.from(wordListByLength(cleanWords, 5));
-    for (let w of wordListByLength(cleanCommonWords, 5)) {
+    //    Show words in scrabble dictionary but not in
+    const wlen = 7;
+    const list = [];
+    const bigdic = PrefixDict.from(wordListByLength(cleanScrabbleWords, wlen));
+    for (let w of wordListByLength(cleanCommonWords, wlen)) {
         if (!bigdic.hasWord(w))
-            console.log(w)
+            list.push(w);
     }
+    console.log(list.join('\n'))
 
 }
 

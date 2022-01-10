@@ -9,7 +9,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
 // // Testing stuff
 //
-// for (let i = 2; i <= 10; i++) findBestFirstWord(i);
+//  for (let i = 2; i <= 7; i++) findBestFirstWord(i);
 //
 //
 // const w = getRandomWordleGame();

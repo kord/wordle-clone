@@ -30,24 +30,24 @@ function matchstring(guess: string, target: string) {
 // 7: common "RENTALS" permissive "israel"
 //
 
-//  Best guess for length 2 is ac
+// Best guess for length 2 is ac
 //  Worst case you need to distinguish between 7.87% of the lexicon.
-//      Toughest bucket:   : 310
+//  Toughest bucket:   : 310
 //  Best guess for length 3 is sea
 //  Worst case you need to distinguish between 4.13% of the lexicon.
-//      Toughest bucket:    : 274
+//  Toughest bucket:    : 274
 //  Best guess for length 4 is sale
-//  Worst case you need to distinguish between 1.68% of the lexicon.
-//      Toughest bucket:     : 184
+//  Worst case you need to distinguish between 1.6% of the lexicon.
+//  Toughest bucket:     : 150
 //  Best guess for length 5 is arise
-//  Worst case you need to distinguish between 0.57% of the lexicon.
-//      Toughest bucket:    oo: 68
-//  Best guess for length 6 is israel
-//  Worst case you need to distinguish between 0.27% of the lexicon.
-//      Toughest bucket:   o o : 39
-//  Best guess for length 7 is rentals
+//  Worst case you need to distinguish between 0.55% of the lexicon.
+//  Toughest bucket:    oo: 66
+//  Best guess for length 6 is ratios
+//  Worst case you need to distinguish between 0.28% of the lexicon.
+//  Toughest bucket:     o : 36
+//  Best guess for length 7 is pirates
 //  Worst case you need to distinguish between 0.18% of the lexicon.
-//      Toughest bucket: oo     : 25
+//  Toughest bucket:  o o   : 22
 //  Best guess for length 8 is articles
 //  Worst case you need to distinguish between 0.1% of the lexicon.
 //      Toughest bucket: o oo    : 11
